@@ -1,1 +1,1 @@
-# -
+اختبار الذكاء intelligence test
