@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>اختبار الذكاء🧠 </title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#17172b,#292955);
+  color:white;
+  font-family:Arial,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:15px;
+}
+
+.game{
+  width:100%;
+  max-width:500px;
+  background:#20203d;
+  padding:22px;
+  border-radius:24px;
+  box-shadow:0 10px 30px #0008;
+}
+
+h1{
+  text-align:center;
+  font-size:28px;
+  margin:5px 0 20px;
+}
+
+.info{
+  display:flex;
+  justify-content:space-between;
+  font-size:15px;
+  margin-bottom:12px;
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#111126;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+.progressBar{
+  height:100%;
+  width:0%;
+  background:#7567ed;
+  border-radius:10px;
+  transition:width .3s;
+}
+
+.timer{
+  text-align:center;
+  background:#15152d;
+  padding:12px;
+  border-radius:12px;
+  font-size:18px;
+  margin-bottom:20px;
+}
+
+.questionBox{
+  width:100%;
+  background:#2b2b52;
+  padding:18px;
+  border-radius:15px;
+  margin-bottom:15px;
+}
+
+#question{
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  line-height:1.7;
+  text-align:center;
+  min-height:35px;
+}
+
+.answers{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.answer{
+  display:block;
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  background:#3a3a68;
+  color:white;
+  font-size:17px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.answer:hover{
+  background:#504f89;
+}
+
+.answer:active{
+  transform:scale(.97);
+}
+
+.answer.correct{
+  background:#198754;
+}
+
+.answer.wrong{
+  background:#dc3545;
+}
+
+.result{
+  text-align:center;
+}
+
+.result h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.score{
+  font-size:48px;
+  font-weight:bold;
+  color:#8d82ff;
+  margin:15px;
+}
+
+.restart{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:15px;
+  background:#7567ed;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.restart:hover{
+  background:#897df5;
+  transform:scale(1.02);
+}
+
+
+/* Instagram */
+
+.instagram{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  width:100%;
+  margin-top:14px;
+
+  padding:14px 18px;
+
+  border-radius:15px;
+
+  background:linear-gradient(
+    135deg,
+    #833ab4,
+    #e1306c,
+    #f77737
+  );
+
+  color:white;
+  text-decoration:none;
+
+  font-size:18px;
+  font-weight:bold;
+
+  box-shadow:0 6px 18px #0005;
+
+  transition:.25s;
+}
+
+.instagram:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 9px 22px #0007;
+}
+
+
+/* Instagram icon */
+
+.instaIcon{
+  width:30px;
+  height:30px;
+
+  border:3px solid white;
+  border-radius:9px;
+
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.instaIcon::before{
+  content:"";
+
+  width:10px;
+  height:10px;
+
+  border:3px solid white;
+  border-radius:50%;
+}
+
+.instaIcon::after{
+  content:"";
+
+  position:absolute;
+
+  width:5px;
+  height:5px;
+
+  background:white;
+  border-radius:50%;
+
+  top:4px;
+  right:4px;
+}
+
+
+/* Discord */
+
+.discord{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  width:100%;
+  margin-top:12px;
+
+  padding:14px 18px;
+
+  border-radius:15px;
+
+  background:linear-gradient(
+    135deg,
+    #5865F2,
+    #4752C4
+  );
+
+  color:white;
+  text-decoration:none;
+
+  font-size:18px;
+  font-weight:bold;
+
+  box-shadow:0 6px 18px #0005;
+
+  transition:.25s;
+}
+
+.discord:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 9px 22px #0007;
+}
+
+
+/* Discord icon */
+
+.discordIcon{
+  font-size:27px;
+  line-height:1;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="game">
+
+  <h1>🧠اختبار الذكاء</h1>
+
+  <div id="gameArea">
+
+    <div class="info">
+
+      <span id="questionNumber">
+        السؤال 1 / 20
+      </span>
+
+      <span id="correctCount">
+        الصحيح: 0
+      </span>
+
+    </div>
+
+    <div class="progress">
+
+      <div
+        class="progressBar"
+        id="progressBar">
+      </div>
+
+    </div>
+
+    <div class="timer">
+
+      ⏱️ الوقت:
+      <span id="time">20</span>
+      ثانية
+
+    </div>
+
+    <div class="questionBox">
+
+      <div id="question">
+        جاري تحميل السؤال...
+      </div>
+
+    </div>
+
+    <div
+      class="answers"
+      id="answers">
+    </div>
+
+  </div>
+
+
+  <div
+    id="result"
+    class="result"
+    style="display:none;">
+  </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+{
+ question:"ما هو العدد التالي؟ 2، 4، 8، 16، ؟",
+ answers:["20","24","32","36"],
+ correct:2
+},
+
+{
+ question:"إذا كان لديك 3 تفاحات وأعطيت تفاحتين، كم بقي معك؟",
+ answers:["1","2","3","5"],
+ correct:0
+},
+
+{
+ question:"أي كلمة لا تنتمي إلى المجموعة؟",
+ answers:["تفاحة","برتقالة","موزة","سيارة"],
+ correct:3
+},
+
+{
+ question:"ما هو العدد التالي؟ 5، 10، 15، 20، ؟",
+ answers:["22","25","30","35"],
+ correct:1
+},
+
+{
+ question:"إذا كان كل القطط حيوانات، فهل كل الحيوانات قطط؟",
+ answers:["نعم","لا","أحيانًا","لا يمكن معرفة ذلك"],
+ correct:1
+},
+
+{
+ question:"ما هو نصف العدد 50؟",
+ answers:["15","20","25","30"],
+ correct:2
+},
+
+{
+ question:"أحمد أطول من علي، وعلي أطول من سامي. من الأقصر؟",
+ answers:["أحمد","علي","سامي","لا نعرف"],
+ correct:2
+},
+
+{
+ question:"ما العدد المختلف؟",
+ answers:["2","4","6","9"],
+ correct:3
+},
+
+{
+ question:"إذا كانت الساعة 3:00، فما الزاوية بين العقربين؟",
+ answers:["30°","60°","90°","180°"],
+ correct:2
+},
+
+{
+ question:"ما هو العدد التالي؟ 1، 3، 6، 10، ؟",
+ answers:["12","14","15","16"],
+ correct:2
+},
+
+{
+ question:"لديك 10 أقلام، فقدت 3 وأعطيت 2. كم بقي؟",
+ answers:["4","5","6","7"],
+ correct:1
+},
+
+{
+ question:"أي شكل له أكبر عدد من الأضلاع؟",
+ answers:["مثلث","مربع","خماسي","دائرة"],
+ correct:2
+},
+
+{
+ question:"إذا كان 2 + 2 = 4، و 4 + 4 = 8، فكم 8 + 8؟",
+ answers:["12","14","16","18"],
+ correct:2
+},
+
+{
+ question:"ما العدد الذي ينقص السلسلة؟ 10، 20، 30، ؟، 50",
+ answers:["35","40","45","60"],
+ correct:1
+},
+
+{
+ question:"لديك 3 صناديق، في كل صندوق 4 كرات. كم كرة لديك؟",
+ answers:["7","10","12","14"],
+ correct:2
+},
+
+{
+ question:"أي واحد مختلف عن البقية؟",
+ answers:["أحمر","أزرق","أخضر","دائرة"],
+ correct:3
+},
+
+{
+ question:"ما هو العدد التالي؟ 100، 90، 80، 70، ؟",
+ answers:["50","55","60","65"],
+ correct:2
+},
+
+{
+ question:"إذا كان اليوم الاثنين، فما اليوم بعد يومين؟",
+ answers:["الثلاثاء","الأربعاء","الخميس","الجمعة"],
+ correct:1
+},
+
+{
+ question:"أي عدد أكبر؟",
+ answers:["0.5","0.25","0.75","0.1"],
+ correct:2
+},
+
+{
+ question:"ما العدد التالي؟ 3، 6، 12، 24، ؟",
+ answers:["36","42","48","50"],
+ correct:2
+}
+
+];
+
+
+let currentQuestion = 0;
+let correctAnswers = 0;
+let timeLeft = 20;
+let timer;
+
+
+const questionElement =
+document.getElementById("question");
+
+const answersElement =
+document.getElementById("answers");
+
+const timeElement =
+document.getElementById("time");
+
+const questionNumber =
+document.getElementById("questionNumber");
+
+const correctCount =
+document.getElementById("correctCount");
+
+const progressBar =
+document.getElementById("progressBar");
+
+
+function startQuestion(){
+
+  clearInterval(timer);
+
+  timeLeft = 20;
+
+  timeElement.textContent = timeLeft;
+
+
+  const q = questions[currentQuestion];
+
+
+  questionNumber.textContent =
+  "السؤال " +
+  (currentQuestion + 1) +
+  " / " +
+  questions.length;
+
+
+  correctCount.textContent =
+  "الصحيح: " +
+  correctAnswers;
+
+
+  progressBar.style.width =
+  ((currentQuestion) /
+  questions.length * 100) +
+  "%";
+
+
+  questionElement.textContent =
+  q.question;
+
+
+  answersElement.innerHTML = "";
+
+
+  q.answers.forEach((answer,index)=>{
+
+    const button =
+    document.createElement("button");
+
+    button.className = "answer";
+
+    button.textContent = answer;
+
+
+    button.onclick = function(){
+
+      checkAnswer(index,button);
+
+    };
+
+
+    answersElement.appendChild(button);
+
+  });
+
+
+  timer = setInterval(()=>{
+
+    timeLeft--;
+
+    timeElement.textContent =
+    timeLeft;
+
+
+    if(timeLeft <= 0){
+
+      clearInterval(timer);
+
+      nextQuestion();
+
+    }
+
+  },1000);
+
+}
+
+
+function checkAnswer(index,button){
+
+  clearInterval(timer);
+
+
+  const correctIndex =
+  questions[currentQuestion].correct;
+
+
+  const buttons =
+  document.querySelectorAll(".answer");
+
+
+  buttons.forEach(b=>{
+    b.disabled = true;
+  });
+
+
+  if(index === correctIndex){
+
+    button.classList.add("correct");
+
+    correctAnswers++;
+
+    correctCount.textContent =
+    "الصحيح: " +
+    correctAnswers;
+
+  }
+
+  else{
+
+    button.classList.add("wrong");
+
+    buttons[correctIndex]
+    .classList.add("correct");
+
+  }
+
+
+  setTimeout(()=>{
+
+    nextQuestion();
+
+  },800);
+
+}
+
+
+function nextQuestion(){
+
+  currentQuestion++;
+
+
+  if(currentQuestion >= questions.length){
+
+    showResult();
+
+  }
+
+  else{
+
+    startQuestion();
+
+  }
+
+}
+
+
+function showResult(){
+
+  clearInterval(timer);
+
+
+  document.getElementById("gameArea")
+  .style.display = "none";
+
+
+  const result =
+  document.getElementById("result");
+
+
+  result.style.display = "block";
+
+
+  const score =
+  Math.round(
+    (correctAnswers /
+    questions.length) * 100
+  );
+
+
+  let evaluation;
+
+
+  if(score >= 90){
+
+    evaluation =
+    "🔥 ذكاء ممتاز جدًا!";
+
+  }
+
+  else if(score >= 75){
+
+    evaluation =
+    "🧠 ذكاء ممتاز!";
+
+  }
+
+  else if(score >= 60){
+
+    evaluation =
+    "👍 نتيجة جيدة جدًا!";
+
+  }
+
+  else if(score >= 40){
+
+    evaluation =
+    "🙂 يمكنك تحسين نتيجتك!";
+
+  }
+
+  else{
+
+    evaluation =
+    "💪 حاول مرة أخرى!";
+
+  }
+
+
+  result.innerHTML = `
+
+    <h2>
+      🎉 انتهى الاختبار!
+    </h2>
+
+    <div class="score">
+      ${score}/100
+    </div>
+
+    <p style="font-size:20px;">
+
+      أجبت بشكل صحيح عن
+
+      <strong>
+        ${correctAnswers}
+      </strong>
+
+      من أصل
+
+      <strong>
+        ${questions.length}
+      </strong>
+
+      سؤالًا.
+
+    </p>
+
+    <p style="font-size:22px;">
+      ${evaluation}
+    </p>
+
+
+    <button
+      class="restart"
+      onclick="restartGame()">
+
+      🔄 إعادة الاختبار
+
+    </button>
+
+
+    <a
+      class="instagram"
+      href="https://www.instagram.com/tooshyta/"
+      target="_blank">
+
+      <span class="instaIcon"></span>
+
+      <span>
+        زرنا على Instagram
+      </span>
+
+    </a>
+
+
+    <a
+      class="discord"
+      href="https://discord.gg/fTkfVwVhF"
+      target="_blank">
+
+      <span class="discordIcon">
+     
+      </span>
+
+      <span>
+        زرنا علا Discord
+      </span>
+
+    </a>
+
+  `;
+
+}
+
+
+function restartGame(){
+
+  currentQuestion = 0;
+
+  correctAnswers = 0;
+
+
+  document.getElementById("gameArea")
+  .style.display = "block";
+
+
+  document.getElementById("result")
+  .style.display = "none";
+
+
+  startQuestion();
+
+}
+
+
+startQuestion();
+
+</script>
+
+</body>
+</html>
